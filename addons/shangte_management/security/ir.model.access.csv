@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_shangte_management_shangte_management,shangte_management.shangte_management,model_shangte_management_shangte_management,base.group_user,1,1,1,1
