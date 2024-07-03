@@ -30,7 +30,7 @@ class LibraryBook(models.Model):
     pages = fields.Integer('页数')
     reader_rating = fields.Float(
         '读者平均评分',
-        digits=(14, 4),  # Optional precision (total, decimals),
+        digits=(14, 4),  # 可选精度（总计, 小数）
     )
     cost_price = fields.Float('书本成本', digits='Book Price')
 
@@ -58,14 +58,15 @@ class LibraryBook(models.Model):
         related='publisher_id.city',
         readonly=True)
 
-    category_id = fields.Many2one('library.book.category',string='分类')
+    # 添加一个many-to-one字段来关联图书类别
+    # category_id = fields.Many2one('library.book.category', '类别')
 
     age_days = fields.Float(
-        string='自发布以来的天数',
+        string='发布天数',
         compute='_compute_age',
         inverse='_inverse_age',
         search='_search_age',
-        store=False,  # optional
+        store=False,        # optional
         compute_sudo=False  # optional
     )
 
@@ -124,6 +125,40 @@ class LibraryBook(models.Model):
             ('field_id.name', '=', 'message_ids')])
         return [(x.model, x.name) for x in models]
 
+    @api.model
+    def is_allowed_transition(self, old_state, new_state):
+        allowed = [('draft', 'available'),
+                   ('available', 'borrowed'),
+                   ('borrowed', 'available'),
+                   ('available', 'lost'),
+                   ('borrowed', 'lost'),
+                   ('lost', 'available')]
+        return (old_state, new_state) in allowed
+
+    @api.model
+    def change_state(self, new_state):
+        for book in self:
+            if book.is_allowed_transition(book.state, new_state):
+                book.state = new_state
+            else:
+                continue
+
+    def make_available(self):
+        self.change_state('available')
+
+    def make_borrowed(self):
+        self.change_state('borrowed')
+
+    def make_lost(self):
+        self.change_state('lost')
+
+    # 获取其它模型的空记录集
+    def log_all_library_members(self):
+        library_member_model = self.env['library.member']  # 这是library.member的空记录集
+        all_members = library_member_model.search([])
+        print('ALL MEMBERS:', all_members)
+        return True
+
 
 # 为出版社的书籍添加one-to-many字段
 class ResPartner(models.Model):
@@ -138,7 +173,17 @@ class ResPartner(models.Model):
         string='著作',
         # relation='library_book_res_partner_rel' # optional
 
-    count_books=fields.Integer(
+        count_books=fields.Integer(
         '著作数量',
         compute='_compute_count_books')
     )
+
+    @api.depends('authored_book_ids')
+    def _compute_count_books(self):
+        for r in self:
+            r.count_books = len(r.authored_book_ids)
+
+
+class LibraryMember(models.Model):
+    _inherit = 'res.partner'
+    _name = 'library.member'

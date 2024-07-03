@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="date_release" optional="show"/>
+                <field name="date_release"/>
             </tree>
         </field>
     </record>
@@ -41,6 +41,15 @@
                 <group>
                     <field name="description"/>
                 </group>
+
+                <header>
+                    <button name="make_available" string="Make Available" type="object"/>
+                    <button name="make_borrowed" string="Make Borrowed" type="object"/>
+                    <button name="make_lost" string="Make Lost" type="object"/>
+                    <button name="log_all_library_members" string="Log Members" type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+
             </form>
         </field>
     </record>
