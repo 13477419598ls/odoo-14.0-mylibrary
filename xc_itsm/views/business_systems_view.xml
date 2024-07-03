@@ -1,0 +1,125 @@
+<odoo>
+
+    <record id="business_systems_view_tree" model="ir.ui.view">
+        <field name="name">业务系统</field>
+        <field name="model">business.systems</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="system_name"/>
+                <field name="system_admin"/>
+                <field name="create_uid" string="创建人"/>
+                <field name="create_date" string="创建时间"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="business_systems_view_form" model="ir.ui.view">
+        <field name="name">业务系统</field>
+        <field name="model">business.systems</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1 style="font-weight: bold;">基础信息</h1>
+                    <hr style="border-bottom-color: black !important;"/>
+                    <group col="1" style="padding: 0 40px;">
+                        <group>
+                            <field name="system_name"/>
+                            <field name="system_admin"/>
+                        </group>
+                    </group>
+
+                    <h1 style="font-weight: bold;">部署信息</h1>
+                    <hr style="border-bottom-color: black !important;"/>
+                    <group col="1" style="padding: 0 40px;">
+                        <group>
+                            <field name="server_ip"/>
+                            <field name="server_account"/>
+                            <field name="server_password"/>
+                            <field name="config_information"/>
+                            <field name="environment_and_version"/>
+                            <field name="deploy_way"/>
+                            <field name="config_path"/>
+                        </group>
+                        <h2 style="font-weight: bold;">依赖中间件</h2>
+                        <group>
+                            <field name="middle_config_way"/>
+                            <field name="middle_config_path"/>
+                            <field name="middle_config_environment"/>
+                        </group>
+                    </group>
+
+                    <h1 style="font-weight: bold;">运维信息</h1>
+                    <hr style="border-bottom-color: black !important;"/>
+                    <group  col="1" style="padding: 0 40px;">
+                        <group>
+                            <field name="linux_command"/>
+                            <field name="report_sql"/>
+                            <field name="profile_backup"/>
+                        </group>
+                        <h2 style="font-weight: bold;">第三方对接信息</h2>
+                        <group>
+                            <field name="third_docking"/>
+                            <field name="third_target_data"/>
+                            <field name="third_db_Information"/>
+                        </group>
+                    </group>
+
+                    <h1 style="font-weight: bold;">附件</h1>
+                    <hr style="border-bottom-color: black !important;"/>
+                    <group style="padding: 0 40px;">
+                        <group>
+                            <field name="attachment"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="business_systems_view_search" model="ir.ui.view">
+        <field name="name">业务系统搜索</field>
+        <field name="model">business.systems</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="system_name"/>
+                <field name="system_admin"/>
+                <field name="server_ip"/>
+                <field name="server_account"/>
+                <field name="server_password"/>
+                <field name="config_information"/>
+                <field name="environment_and_version"/>
+                <field name="deploy_way"/>
+                <field name="config_path"/>
+                <field name="middle_config_way"/>
+                <field name="middle_config_path"/>
+                <field name="middle_config_environment"/>
+                <field name="linux_command"/>
+                <field name="report_sql"/>
+                <field name="profile_backup"/>
+                <field name="third_docking"/>
+                <field name="third_target_data"/>
+                <field name="third_db_Information"/>
+                <field name="attachment"/>
+            </search>
+        </field>
+    </record>
+
+    <record id='business_systems_view_action' model='ir.actions.act_window'>
+        <field name="name">业务系统</field>
+        <field name="res_model">business.systems</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="ITSM系统维护信息"
+              id="ITSM_base_menu"
+              groups="xc_itsm_menu_group"
+    />
+    <menuitem name="业务系统"
+              id="business_systems_menu"
+              parent="ITSM_base_menu"
+              action="business_systems_view_action"
+    />
+
+</odoo>
+
+

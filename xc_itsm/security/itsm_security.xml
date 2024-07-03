@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="xc_itsm_category" model="ir.module.category">
+            <field name="name">ITSM系统管理</field>
+        </record>
+
+        <record id="xc_itsm_menu_group" model="res.groups">
+            <field name="category_id" ref="xc_itsm_category"/>
+            <field name="name">ITSM菜单权限</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>
