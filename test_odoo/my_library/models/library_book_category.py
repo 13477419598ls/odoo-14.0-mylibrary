@@ -17,6 +17,7 @@ class BookCategory(models.Model):
         'library.book.category',
         'parent_id',
         string='子类别')
+    category_ids = fields.One2many('library.book', 'category_id', string='图书')
 
 
 # 新增一个防止循环关联的检查

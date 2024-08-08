@@ -8,10 +8,10 @@ class LibraryBook(models.Model):
     _name = 'library.book'
     _description = '图书馆描述'
     _order = 'date_release desc, name'  # 按发行日期降序排序，如果日期相同则按书名升序排序
-    _rec_name = 'short_name'
+    # _rec_name = 'short_name'
 
     name = fields.Char('书名', required=True)
-    short_name = fields.Char('短标题', required=True)
+    short_name = fields.Char('短标题')
     date_release = fields.Date('发行日期')
     author_ids = fields.Many2many(
         'res.partner',
@@ -22,7 +22,7 @@ class LibraryBook(models.Model):
         [('draft', '不可用'),
          ('available', '可用'),
          ('lost', '丢失')],
-        '状态', default="draft")
+        '状态', default="available")
     description = fields.Html('描述')
     cover = fields.Binary('图书封面')
     out_of_print = fields.Boolean('是否绝版')
@@ -59,7 +59,7 @@ class LibraryBook(models.Model):
         readonly=True)
 
     # 添加一个many-to-one字段来关联图书类别
-    # category_id = fields.Many2one('library.book.category', '类别')
+    category_id = fields.Many2one('library.book.category', '类别')
 
     age_days = fields.Float(
         string='发布天数',
@@ -158,6 +158,14 @@ class LibraryBook(models.Model):
         all_members = library_member_model.search([])
         print('ALL MEMBERS:', all_members)
         return True
+
+    @api.model
+    def books_with_multiple_authors(self, all_books):
+        def predicate(book):
+            if len(book.author_ids) > 1:
+                return True
+            return False
+        return all_books.filter(predicate)
 
 
 # 为出版社的书籍添加one-to-many字段

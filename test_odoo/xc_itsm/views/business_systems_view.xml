@@ -29,24 +29,44 @@
                         </group>
                     </group>
                     <notebook>
+<!--                        <page string="部署信息">-->
+<!--                            <group col="1" style="padding: 0 40px;">-->
+<!--                                <group>-->
+<!--                                    <field name="server_ip"/>-->
+<!--                                    <field name="server_account"/>-->
+<!--                                    <field name="server_password"/>-->
+<!--                                    <field name="config_information"/>-->
+<!--                                    <field name="environment"/>-->
+<!--                                    <field name="version"/>-->
+<!--                                    <field name="deploy_way"/>-->
+<!--                                    <field name="config_path"/>-->
+<!--                                </group>-->
+<!--                                <h3 style="font-weight: bold;">依赖中间件</h3>-->
+<!--                                <group>-->
+<!--                                    <field name="middle_config_way"/>-->
+<!--                                    <field name="middle_config_path"/>-->
+<!--                                    <field name="middle_config_environment"/>-->
+<!--                                </group>-->
+<!--                            </group>-->
+<!--                        </page>-->
                         <page string="部署信息">
-                            <group col="1" style="padding: 0 40px;">
-                                <group>
+                            <field name="deployment" mode="tree" invisible="1" context="{'disable_open':True}">
+                                <tree create="false"
+                                      import="false">
                                     <field name="server_ip"/>
                                     <field name="server_account"/>
                                     <field name="server_password"/>
                                     <field name="config_information"/>
-                                    <field name="environment_and_version"/>
+                                    <field name="environment"/>
+                                    <field name="version"/>
                                     <field name="deploy_way"/>
                                     <field name="config_path"/>
-                                </group>
-                                <h2 style="font-weight: bold;">依赖中间件</h2>
-                                <group>
+                                    <field name="middle_name"/>
                                     <field name="middle_config_way"/>
                                     <field name="middle_config_path"/>
                                     <field name="middle_config_environment"/>
-                                </group>
-                            </group>
+                                </tree>
+                            </field>
                         </page>
                         <page string="运维信息">
                             <group col="1" style="padding: 0 40px;">
@@ -55,7 +75,7 @@
                                     <field name="report_sql"/>
                                     <field name="profile_backup"/>
                                 </group>
-                                <h2 style="font-weight: bold;">第三方对接信息</h2>
+                                <h3 style="font-weight: bold;">第三方对接信息</h3>
                                 <group>
                                     <field name="third_docking"/>
                                     <field name="third_target_data"/>
@@ -128,7 +148,8 @@
                 <field name="server_account"/>
                 <field name="server_password"/>
                 <field name="config_information"/>
-                <field name="environment_and_version"/>
+                <field name="environment"/>
+                <field name="version"/>
                 <field name="deploy_way"/>
                 <field name="config_path"/>
                 <field name="middle_config_way"/>
